@@ -2,12 +2,12 @@
 # Olaf Krawczyk 218164
 # Systemy Operacyjne 2
 
-touch "deleted.txt"
+touch $2
 for file in $1/*
 do
-	if [ ! -s $file -a -f $file -a $file != "deleted.txt" ]
+	if [ ! -s $file -a -f $file -a $file != $2  ]
 	then
-		echo $file > "deleted.txt"
+		echo $file > $2
 		echo Removing file $file
 		rm $file
 	fi
