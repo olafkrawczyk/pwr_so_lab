@@ -2,8 +2,8 @@
 # Olaf Krawczyk 218164
 # Systemy Operacyjne 2
 
-# Skrypt wypisuje wszystkie katalogi w katalogu zadanym jako parametr, w którym znajduje się
-# plik o takiej samej nazwie jak jakikolwiek plik w katalogu podanym jako parametr.
+# Skrypt wypisuje wszystkie katalogi z katalogu zadanego jako parametr, w którym znajduje się co najmniej
+# jeden plik o takiej samej nazwie jak jakikolwiek plik w katalogu podanym jako parametr.
 
 if [ "$#" -ne "1" ]
 then
@@ -22,12 +22,12 @@ DIR1=`ls -d $1/*/`
 for dir_ in $DIR1
 do
 	FOUND="false"
-	for dir2_ in `ls $dir_`
+	for file2 in `ls $dir_`
 	do
 		for file in `ls $1`
 		do
 			
-			if [ $file == $dir2_ ] && [ ! -d $dir2_ ]
+			if [ $file == $file2 ] && [ ! -d $file2 ]
 			then
 				FOUND="true"
 				break
