@@ -3,10 +3,12 @@
 #include <ncurses.h>
 #include <unistd.h>
 #include <thread>
+#include "paddle.h"
 
 
 int main(){
     Ball* ball = new Ball();
+    Paddle* paddle = new Paddle();
     int ch;
 
     initscr();
@@ -16,13 +18,15 @@ int main(){
     curs_set(0);
 
     resizeterm(20, 80);
-    std::thread t1(&Ball::animate, ball);
+    std::thread t_ball(&Ball::animate, ball);
+    std::thread t_paddle(&Paddle::move, paddle);
     
     while((ch = getch()) != KEY_F(2))
         continue;
     
     ball->destroy();
-    t1.join();
+    t_ball.join();
+    t_paddle.join();
 
     endwin();
     return 0;
