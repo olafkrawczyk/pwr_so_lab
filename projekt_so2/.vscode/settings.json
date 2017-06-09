@@ -1,0 +1,29 @@
+{
+    "files.associations": {
+        "cstdlib": "cpp",
+        "ctime": "cpp",
+        "mutex": "cpp",
+        "array": "cpp",
+        "*.tcc": "cpp",
+        "cctype": "cpp",
+        "chrono": "cpp",
+        "clocale": "cpp",
+        "cstdint": "cpp",
+        "cstdio": "cpp",
+        "cwchar": "cpp",
+        "exception": "cpp",
+        "functional": "cpp",
+        "initializer_list": "cpp",
+        "iosfwd": "cpp",
+        "limits": "cpp",
+        "new": "cpp",
+        "ratio": "cpp",
+        "stdexcept": "cpp",
+        "system_error": "cpp",
+        "thread": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "typeinfo": "cpp",
+        "utility": "cpp"
+    }
+}
