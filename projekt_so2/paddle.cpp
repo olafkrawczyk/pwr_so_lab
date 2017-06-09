@@ -1,35 +1,39 @@
 #include "paddle.h"
 
 Paddle::Paddle(){
-    
+    this->size = 6;
+    this->posX = 37;
+    this->draw();
 }
 
-void Paddle::move(){
-    int ch;
-
-    while((ch = getch()) != KEY_F(2)){
-        switch(ch){
-            case KEY_LEFT:
-				this->clear();
-				--win.posX;
-				this->draw();
-				break;
-			case KEY_RIGHT:
-				this->clear();
-				++win.posX;
-				this->draw();
-				break;
-        }
-        refresh();
+void Paddle::move(int ch){
+    switch(ch){
+        case KEY_LEFT:
+            this->clear();
+            --posX;
+            this->draw();
+            break;
+        case KEY_RIGHT:
+            this->clear();
+            ++posX;
+            this->draw();
+            break;
     }
 }
 
 void Paddle::clear(){
-    for(int i = this->posX; i < size; i++)
-        mvaddch(19, i, ' ');
+    mvhline(19, this->posX, ' ', this->size);
 }
 
 void Paddle::draw(){
-    for(int i = this->posX; i < size; i++)
-        mvaddch(19, i, '=');
+    mvhline(19, this->posX, '=', this->size);
+    refresh();
+}
+
+int Paddle::getPosX(){
+    return this->posX;
+}
+
+int Paddle::getSize(){
+    return this->size;
 }

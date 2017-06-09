@@ -19,14 +19,13 @@ int main(){
 
     resizeterm(20, 80);
     std::thread t_ball(&Ball::animate, ball);
-    std::thread t_paddle(&Paddle::move, paddle);
     
-    while((ch = getch()) != KEY_F(2))
-        continue;
-    
+     while((ch = getch()) != KEY_F(2)){
+        paddle->move(ch);
+     }    
+
     ball->destroy();
     t_ball.join();
-    t_paddle.join();
 
     endwin();
     return 0;

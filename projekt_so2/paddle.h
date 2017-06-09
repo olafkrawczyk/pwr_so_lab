@@ -1,13 +1,15 @@
-#include <ncurses>
+#include <ncurses.h>
 
 class Paddle {
     public:
-        Paddle(Ball*);
-        void move();
+        Paddle();
+        void move(int ch);
         void clear();
         void draw();
+        int getPosX();
+        int getSize();
 
 
     private:
-        inty posX, size;
+        int posX, size;
 };
