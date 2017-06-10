@@ -1,4 +1,5 @@
 #include "ball.h"
+#include "wall.h"
 #include <thread>
 #include <ncurses.h>
 #include <unistd.h>
@@ -17,8 +18,11 @@ int main(){
     keypad(stdscr, TRUE);
     noecho();
     curs_set(0);
-
     resizeterm(20, 80);
+
+    Wall* wall = new Wall(11, 2);
+    wall->draw();
+
     std::thread t_ball(&Ball::animate, ball);
     
     paddle->draw();
