@@ -24,7 +24,7 @@ void Ball::run(){
 
 void Ball::animate(){
     while(this->running){
-        usleep(500000);
+        usleep(250000);
         this->clear_ball();
         this->check_collisions();
         this->move_ball();
@@ -42,10 +42,18 @@ void Ball::clear_ball(){
 }
 
 void Ball::check_collisions(){
-    if (this->posX + this->dX >= 80 || this->posX + this-> dY <= 0)
+    if (this->posX + this->dX >= 80 || this->posX + this->dX == -1)
         dX *= -1;
-    if (this->posY + this->dY >= 20 || this->posY + this-> dY <= 0)
+    if (this->posY + this->dY == -1)
         dY *= -1;
+    else if (this->posY == 18 && this->posX >= this->paddle->getPosX() && this->posX <= this->paddle->getSize() + this->paddle->getPosX() )
+        dY *= -1;
+    else if (this->posY > 18) {
+        this->posX = 40;
+        this->posY = 10;
+        this->dX = -1;
+        this->dY = 1;
+    }
 }
 
 void Ball::move_ball(){
@@ -55,4 +63,7 @@ void Ball::move_ball(){
 
 void Ball::draw_ball(){
     mvaddch(this->posY, this->posX, 'O');
+}
+void Ball::setPaddle(Paddle* paddle){
+    this->paddle = paddle;
 }
