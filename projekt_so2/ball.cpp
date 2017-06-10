@@ -54,6 +54,7 @@ void Ball::check_collisions(){
         this->dX = -1;
         this->dY = 1;
     }
+    // check wall bounce
 }
 
 void Ball::move_ball(){
@@ -64,6 +65,11 @@ void Ball::move_ball(){
 void Ball::draw_ball(){
     mvaddch(this->posY, this->posX, 'O');
 }
+
 void Ball::setPaddle(Paddle* paddle){
     this->paddle = paddle;
+}
+
+void Ball::setWall(Wall* wall){
+    this->wall = wall;
 }

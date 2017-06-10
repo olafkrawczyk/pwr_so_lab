@@ -1,6 +1,8 @@
 #include <ncurses.h>
 #include "paddle.h"
 
+
+class Wall;
 class Ball {
     public:
         Ball();
@@ -14,6 +16,7 @@ class Ball {
         void move_ball();
         void run();
         void setPaddle(Paddle* pd);
+        void setWall(Wall* wall);
     
     private:
         int posX;
@@ -21,5 +24,6 @@ class Ball {
         int dX;
         int dY;
         bool running;
-        Paddle* paddle;     
+        Paddle* paddle;
+        Wall* wall;     
 };

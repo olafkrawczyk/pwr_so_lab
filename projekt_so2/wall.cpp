@@ -1,11 +1,13 @@
 #include "wall.h"
 #include <string>
+#include "ball.h"
 
 
 Wall::Wall(int cols, int rows){
     this->bricks_cols = cols;
     this->bricks_rows = rows;
     this->gap = 1;
+    stop = false;
 }
 
 void Wall::draw(){
@@ -30,4 +32,25 @@ void Wall::draw(){
     }
 	refresh();
 
+}
+
+void Wall::setBall(Ball* ball){
+    this->ball = ball;
+}
+
+void Wall::cleanup(){
+    while(!stop){
+        for(int i = 0; i < this->bricks.size(); i++){
+
+            if (ball->getX() >= bricks[i]->getPosX() && ball->getX() <= bricks[i]->getPosX() + bricks[i]->getWidth())
+                if (ball->getY() >= bricks[i]->getPosY() && ball->getY() <= bricks[i]->getPosY() + bricks[i]->getHeight()){
+                    bricks[i]->clear();
+                    bricks.erase(bricks.begin() + i);
+                }    
+        }
+    }
+}
+
+void Wall::stop_cleanup(){
+    stop = true;
 }

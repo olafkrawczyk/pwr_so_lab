@@ -21,9 +21,11 @@ int main(){
     resizeterm(20, 80);
 
     Wall* wall = new Wall(11, 2);
+    wall->setBall(ball);
     wall->draw();
 
     std::thread t_ball(&Ball::animate, ball);
+    std::thread t_wall(&Wall::cleanup, wall);
     
     paddle->draw();
      while((ch = getch()) != KEY_F(2)){
@@ -31,6 +33,8 @@ int main(){
      }    
 
     ball->destroy();
+    wall->stop_cleanup();
+    t_wall.join();
     t_ball.join();
 
     endwin();
