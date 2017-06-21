@@ -22,13 +22,15 @@ void Ball::run(){
     
 }
 
-void Ball::animate(){
+void Ball::animate(std::mutex * m_lock){
     while(this->running){
         usleep(250000);
-        this->clear_ball();
         this->check_collisions();
+        m_lock->lock();
+        this->clear_ball();
         this->move_ball();
         this->draw_ball();
+        m_lock->unlock();
     }
 }
 
@@ -53,7 +55,18 @@ void Ball::check_collisions(){
         this->dX = -1;
         this->dY = 1;
     }
-    // check wall bounce
+
+    for(int i = 0; i < this->wall->bricks.size(); i++){
+            if (this->posX >= this->wall->bricks[i]->getPosX() && this->posX <= this->wall->bricks[i]->getPosX() + this->wall->bricks[i]->getWidth())
+                if (this->posY >= this->wall->bricks[i]->getPosY() && this->posY <= this->wall->bricks[i]->getPosY() + this->wall->bricks[i]->getHeight()){
+                    if (this->posY == this->wall->bricks[i]->getPosY() || this->posY <= this->wall->bricks[i]->getPosY() + this->wall->bricks[i]->getHeight())
+                        this->dY *= -1;
+                    else
+                        this->dX *= -1;
+                    wall->remove_ball(i);
+                } 
+        }
+    
 }
 
 void Ball::move_ball(){

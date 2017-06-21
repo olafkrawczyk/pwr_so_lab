@@ -1,14 +1,13 @@
 #include <ncurses.h>
 #include "paddle.h"
+#include "wall.h"
 
-
-class Wall;
 class Ball {
     public:
         Ball();
         int getX();
         int getY();
-        void animate();
+        void animate(std::mutex *);
         void destroy();
         void check_collisions();
         void clear_ball();
@@ -25,5 +24,5 @@ class Ball {
         int dY;
         bool running;
         Paddle* paddle;
-        Wall* wall;     
+        Wall* wall;   
 };

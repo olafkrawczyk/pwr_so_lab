@@ -37,17 +37,26 @@ void Wall::setBall(Ball* ball){
 void Wall::cleanup(){
     while(!stop){
         for(int i = 0; i < this->bricks.size(); i++){
+            
             if (ball->getX() >= bricks[i]->getPosX() && ball->getX() <= bricks[i]->getPosX() + bricks[i]->getWidth())
                 if (ball->getY() >= bricks[i]->getPosY() && ball->getY() <= bricks[i]->getPosY() + bricks[i]->getHeight()){
                     bricks[i]->clear();
                     bricks.erase(bricks.begin() + i);
                 }    
+            
         }
     }
 }
 
 void Wall::stop_cleanup(){
     stop = true;
+}
+
+void Wall::remove_ball(int id){
+    this->wall_mutex.lock();
+    bricks[id]->clear();
+    bricks.erase(bricks.begin() + id);
+    this->wall_mutex.unlock();
 }
 
 void Wall::print_bricks_count(){

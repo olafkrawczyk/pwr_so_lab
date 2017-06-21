@@ -7,12 +7,14 @@
 
 
 void refresh_game(bool *, Wall *);
+std::mutex screen_write_mutex;
 
 int main(){
     Paddle* paddle = new Paddle();
     Ball* ball = new Ball();
     Wall* wall = new Wall(11, 2);
     ball->setPaddle(paddle);
+    ball->setWall(wall);
     int ch;
     bool game_running = true;
 
@@ -28,8 +30,8 @@ int main(){
     wall->setBall(ball);
     wall->draw();
 
-    std::thread t_ball(&Ball::animate, ball);
-    std::thread t_wall(&Wall::cleanup, wall);
+    std::thread t_ball(&Ball::animate, ball, &screen_write_mutex);
+    //std::thread t_wall(&Wall::cleanup, wall);
     
     paddle->draw();
      while((ch = getch()) != KEY_F(2)){
@@ -38,8 +40,8 @@ int main(){
 
     game_running = false;
     ball->destroy();
-    wall->stop_cleanup();
-    t_wall.join();
+    //wall->stop_cleanup();
+    //t_wall.join();
     t_ball.join();
     ref_t.join();
 
@@ -51,7 +53,9 @@ int main(){
 void refresh_game(bool * game_ptr, Wall* wall){
     while(*game_ptr != false){
         usleep(50000);
+        screen_write_mutex.lock();
         wall->print_bricks_count();
+        screen_write_mutex.unlock();
         refresh();
     }
 }
