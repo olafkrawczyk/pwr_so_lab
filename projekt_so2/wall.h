@@ -11,6 +11,7 @@ class Wall{
         void setBall(Ball *);
         void cleanup();
         void stop_cleanup();
+        void print_bricks_count();
 
     private:
         int bricks_rows;

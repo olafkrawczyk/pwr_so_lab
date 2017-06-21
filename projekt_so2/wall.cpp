@@ -24,9 +24,6 @@ void Wall::draw(){
         start_y += gap + 2; //2 = brick height
     }
     
-    std::string data = "Bricks: " + std::to_string(this->bricks.size());
-    printw(data.c_str());
-
     for (auto brick : this->bricks){
         brick->draw();
     }
@@ -51,4 +48,10 @@ void Wall::cleanup(){
 
 void Wall::stop_cleanup(){
     stop = true;
+}
+
+void Wall::print_bricks_count(){
+    mvprintw(0,0, "Bricks:    ");
+    std::string data = "Bricks: " + std::to_string(this->bricks.size());
+    mvprintw(0,0, data.c_str());
 }

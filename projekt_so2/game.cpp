@@ -6,13 +6,15 @@
 #include <thread>
 
 
-void refresh_game();
+void refresh_game(bool *, Wall *);
 
 int main(){
     Paddle* paddle = new Paddle();
     Ball* ball = new Ball();
+    Wall* wall = new Wall(11, 2);
     ball->setPaddle(paddle);
     int ch;
+    bool game_running = true;
 
     initscr();
     cbreak();
@@ -20,9 +22,9 @@ int main(){
     noecho();
     curs_set(0);
     resizeterm(20, 80);
-    std::thread ref_t(refresh_game);
+    std::thread ref_t(refresh_game, &game_running, wall);
 
-    Wall* wall = new Wall(11, 2);
+    
     wall->setBall(ball);
     wall->draw();
 
@@ -32,21 +34,24 @@ int main(){
     paddle->draw();
      while((ch = getch()) != KEY_F(2)){
         paddle->move(ch);
-     }    
+     }
 
+    game_running = false;
     ball->destroy();
     wall->stop_cleanup();
     t_wall.join();
     t_ball.join();
+    ref_t.join();
 
     endwin();
     return 0;
 
 }
 
-void refresh_game(){
-    while(true){
+void refresh_game(bool * game_ptr, Wall* wall){
+    while(*game_ptr != false){
         usleep(50000);
+        wall->print_bricks_count();
         refresh();
     }
 }
