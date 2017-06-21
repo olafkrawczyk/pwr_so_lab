@@ -30,7 +30,6 @@ void Wall::draw(){
     for (auto brick : this->bricks){
         brick->draw();
     }
-	refresh();
 
 }
 
@@ -41,7 +40,6 @@ void Wall::setBall(Ball* ball){
 void Wall::cleanup(){
     while(!stop){
         for(int i = 0; i < this->bricks.size(); i++){
-
             if (ball->getX() >= bricks[i]->getPosX() && ball->getX() <= bricks[i]->getPosX() + bricks[i]->getWidth())
                 if (ball->getY() >= bricks[i]->getPosY() && ball->getY() <= bricks[i]->getPosY() + bricks[i]->getHeight()){
                     bricks[i]->clear();

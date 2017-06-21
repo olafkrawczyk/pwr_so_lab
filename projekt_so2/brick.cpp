@@ -19,7 +19,6 @@ void Brick::draw(){
     for (int i = 0; i < this->height; i++){
         mvhline(this->posY + i, this->posX, '|', this->width);
     }
-    refresh();
 }
 
 void Brick::clear(){
@@ -27,7 +26,6 @@ void Brick::clear(){
         for (int k = 0; k < this->width; k++){
             mvaddch(posY + i, posX + k, ' ');
         }
-    refresh();        
 }
 
 Brick::~Brick(){

@@ -27,7 +27,6 @@ void Paddle::clear(){
 
 void Paddle::draw(){
     mvhline(19, this->posX, '=', this->size);
-    refresh();
 }
 
 int Paddle::getPosX(){

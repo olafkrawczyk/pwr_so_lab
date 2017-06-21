@@ -29,7 +29,6 @@ void Ball::animate(){
         this->check_collisions();
         this->move_ball();
         this->draw_ball();
-        refresh();
     }
 }
 

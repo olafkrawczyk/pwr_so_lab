@@ -6,6 +6,7 @@
 #include <thread>
 
 
+void refresh_game();
 
 int main(){
     Paddle* paddle = new Paddle();
@@ -19,6 +20,7 @@ int main(){
     noecho();
     curs_set(0);
     resizeterm(20, 80);
+    std::thread ref_t(refresh_game);
 
     Wall* wall = new Wall(11, 2);
     wall->setBall(ball);
@@ -40,4 +42,11 @@ int main(){
     endwin();
     return 0;
 
+}
+
+void refresh_game(){
+    while(true){
+        usleep(50000);
+        refresh();
+    }
 }
