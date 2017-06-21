@@ -63,4 +63,5 @@ void Wall::print_bricks_count(){
     mvprintw(0,0, "Bricks:    ");
     std::string data = "Bricks: " + std::to_string(this->bricks.size());
     mvprintw(0,0, data.c_str());
+    mvprintw(0,71, "[F2] Quit");
 }

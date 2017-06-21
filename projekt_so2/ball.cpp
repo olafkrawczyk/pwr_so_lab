@@ -2,12 +2,14 @@
 #include <thread>
 #include <unistd.h>
 
-Ball::Ball(){
+Ball::Ball(std::mutex* ball_mutex){
     this->posX = 40;
     this->posY = 10;
     this->dX = -1;
     this->dY = 1;
     this->running = true;
+    this->ball_lost = false;
+    this->ball_mutex = ball_mutex;
 }
 
 int Ball::getX(){
@@ -24,13 +26,16 @@ void Ball::run(){
 
 void Ball::animate(std::mutex * m_lock){
     while(this->running){
-        usleep(250000);
-        this->check_collisions();
-        m_lock->lock();
-        this->clear_ball();
-        this->move_ball();
-        this->draw_ball();
-        m_lock->unlock();
+        if (! this->ball_lost && this->ball_mutex->try_lock()){
+            this->ball_mutex->unlock();
+            usleep(250000);
+            this->check_collisions();
+            m_lock->lock();
+            this->clear_ball();
+            this->move_ball();
+            this->draw_ball();
+            m_lock->unlock();
+        }
     }
 }
 
@@ -50,20 +55,19 @@ void Ball::check_collisions(){
     else if (this->posY == 18 && this->posX >= this->paddle->getPosX() && this->posX <= this->paddle->getSize() + this->paddle->getPosX() )
         dY *= -1;
     else if (this->posY > 18) {
-        this->posX = 40;
-        this->posY = 10;
-        this->dX = -1;
-        this->dY = 1;
+        this->ball_lost = true;
     }
 
     for(int i = 0; i < this->wall->bricks.size(); i++){
             if (this->posX >= this->wall->bricks[i]->getPosX() && this->posX <= this->wall->bricks[i]->getPosX() + this->wall->bricks[i]->getWidth())
                 if (this->posY >= this->wall->bricks[i]->getPosY() && this->posY <= this->wall->bricks[i]->getPosY() + this->wall->bricks[i]->getHeight()){
-                    if (this->posY == this->wall->bricks[i]->getPosY() || this->posY <= this->wall->bricks[i]->getPosY() + this->wall->bricks[i]->getHeight())
+                    if (this->posY == this->wall->bricks[i]->getPosY() || this->posY == this->wall->bricks[i]->getPosY() + this->wall->bricks[i]->getHeight())
                         this->dY *= -1;
                     else
                         this->dX *= -1;
                     wall->remove_ball(i);
+                    this->ball_mutex->lock();
+                    break;
                 } 
         }
     

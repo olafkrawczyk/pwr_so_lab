@@ -4,7 +4,7 @@
 
 class Ball {
     public:
-        Ball();
+        Ball(std::mutex*);
         int getX();
         int getY();
         void animate(std::mutex *);
@@ -16,6 +16,7 @@ class Ball {
         void run();
         void setPaddle(Paddle* pd);
         void setWall(Wall* wall);
+        bool ball_lost;
     
     private:
         int posX;
@@ -23,6 +24,7 @@ class Ball {
         int dX;
         int dY;
         bool running;
+        std::mutex* ball_mutex;
         Paddle* paddle;
         Wall* wall;   
 };

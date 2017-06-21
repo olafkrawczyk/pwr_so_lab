@@ -1,9 +1,10 @@
 #include "paddle.h"
 
-Paddle::Paddle(){
+Paddle::Paddle(std::mutex* ball_mutex){
     this->size = 6;
     this->posX = 37;
     this->draw();
+    this->ball_mutex = ball_mutex;
 }
 
 void Paddle::move(int ch){
@@ -17,6 +18,7 @@ void Paddle::move(int ch){
         ++posX;
         this->draw();
     }
+    this->ball_mutex->unlock();
 }
 
 void Paddle::clear(){
