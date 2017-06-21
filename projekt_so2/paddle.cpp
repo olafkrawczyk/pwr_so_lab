@@ -7,17 +7,15 @@ Paddle::Paddle(){
 }
 
 void Paddle::move(int ch){
-    switch(ch){
-        case KEY_LEFT:
-            this->clear();
-            --posX;
-            this->draw();
-            break;
-        case KEY_RIGHT:
-            this->clear();
-            ++posX;
-            this->draw();
-            break;
+    if (this->posX >= 1 && ch == KEY_LEFT){
+        this->clear();
+        --posX;
+        this->draw();
+    }
+    else if (this->posX <= 73 && ch == KEY_RIGHT){
+        this->clear();
+        ++posX;
+        this->draw();
     }
 }
 
