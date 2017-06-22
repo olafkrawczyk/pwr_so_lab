@@ -39,26 +39,24 @@ int main(){
      while((ch = getch()) != KEY_F(2)){
         paddle->move(ch);
         if (ball->ball_lost){
-            game_running = false;
             clear();
             mvprintw(10, 20, "YOU LOSE!");
             refresh();
             break;
         }
         else if(wall->bricks.size() == 0){
-            game_running = false;
             clear();
             mvprintw(10, 20, "YOU WIN!");
             refresh();
             break;
         }
      }
-
+    game_running = false;
     getch();
     ball->destroy();
     t_ball.join();
-    timer_g.join();
     ref_t.join();
+    timer_g.join();
 
     endwin();
     return 0;
