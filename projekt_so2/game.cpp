@@ -7,6 +7,7 @@
 
 
 void refresh_game(bool *, Wall *);
+void game_timer(bool *);
 std::mutex screen_write_mutex;
 std::mutex ball_mutex;
 
@@ -32,6 +33,7 @@ int main(){
     wall->draw();
 
     std::thread t_ball(&Ball::animate, ball, &screen_write_mutex);
+    std::thread timer_g(game_timer, &game_running);
     
     paddle->draw();
      while((ch = getch()) != KEY_F(2)){
@@ -55,6 +57,7 @@ int main(){
     getch();
     ball->destroy();
     t_ball.join();
+    timer_g.join();
     ref_t.join();
 
     endwin();
@@ -68,5 +71,16 @@ void refresh_game(bool * game_ptr, Wall* wall){
         wall->print_bricks_count();
         refresh();
         screen_write_mutex.unlock();
+    }
+}
+
+void game_timer(bool* game_running){
+    int time = 0;
+    while(*game_running != false){
+        std::string data = "Game time: " + std::to_string(time);
+        mvprintw(0, 30, "                 ");
+        mvprintw(0, 30, data.c_str());
+        usleep(1000000);
+        time++;
     }
 }
